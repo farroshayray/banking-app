@@ -6,11 +6,15 @@ from connectors.account import account as account_blueprint
 from connectors.user import user as user_blueprint
 from connectors.transaction import transaction as transaction_blueprint
 from flask_jwt_extended import JWTManager, get_jwt_identity, jwt_required, unset_jwt_cookies
+import os
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 jwt = JWTManager(app)
+
+database_url = os.getenv("DATABASE_URL")
+print(database_url)
 
 with app.app_context():
     db.create_all()

@@ -37,6 +37,9 @@ WORKDIR /app
 # Copy all built files from the build stage to runtime stage
 COPY --from=build /app /app
 
+# Copy the .env file into the container
+COPY .env .env
+
 # Activate the virtual environment created by Poetry
 ENV PATH="/app/.venv/bin:$PATH"
 RUN echo "source /app/.venv/bin/activate" >> /etc/profile.d/venv.sh
