@@ -38,7 +38,7 @@ WORKDIR /app
 COPY --from=build /app /app
 
 # Copy the .env file into the container
-COPY .env .env
+# COPY .env .env
 
 # Activate the virtual environment created by Poetry
 ENV PATH="/app/.venv/bin:$PATH"
