@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Receipt</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(180deg, black, #76f0f0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000000;
+            padding: 10px 20px;
+            color: white;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #009496;
+        }
+
+        .receipt-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 6rem; /* Offset for fixed navbar */
+        }
+
+        .receipt-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+
+        .receipt-details {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .receipt-details p {
+            margin-bottom: 0.75rem;
+        }
+
+        .amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .type {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #007bff;
+            text-transform: capitalize;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #868e96;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bank Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">About</a></li>
+            {% if username %}
+                <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+            {% else %}
+                <li><a href="{{url_for('auth.login')}}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="receipt-container">
+        <div class="receipt-header">Transaction Receipt</div>
+        <div class="receipt-details">
+            <p><strong>Transaction ID:</strong> {{transaction.id}}</p>
+            <p><strong>Account Owner:</strong> {{user.username}}</p>
+            <p><strong>Account Number:</strong> {{account.account_number}}</p>
+            <p class="amount"><strong>Amount:</strong> {{transaction.amount | currency}}</p>
+            <p class="type"><strong>Transaction Type:</strong> {{transaction.type}}</p>
+            {% if transaction.type == 'transfer' %}
+                <p><strong>Transfer to:</strong> {{transfer_to_user.username}}, {{transfer_to.account_number}}</p>
+            {% endif %}
+            <p><strong>Date:</strong> {{transaction.created_at}}</p>
+        </div>
+        <div class="footer">Thank you for banking with us</div>
+    </div>
+</body>
+</html>

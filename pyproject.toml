@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "farros-banking"
+version = "0.1.0"
+description = ""
+authors = ["farroshayray <farros.hr@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+flask = "^3.0.3"
+mysql-connector-python = "^9.1.0"
+python-dotenv = "^1.0.1"
+werkzeug = "^3.0.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

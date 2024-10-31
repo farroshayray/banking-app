@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirm Delete Account</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+  <style>
+    /* Styling dasar */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, black, #76f0f0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #000000;
+      padding: 10px 20px;
+      color: white;
+      width: 100%; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      z-index: 1000;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+    }
+
+    .nav-links li {
+      margin-left: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #009496;
+    }
+
+    .confirm-container {
+      margin-top: 8rem;
+      width: 100%;
+      max-width: 500px;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, p {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #dfe6e9;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus {
+      border-color: #0984e3;
+      outline: none;
+      box-shadow: 0 0 4px rgba(9, 132, 227, 0.4);
+    }
+
+    .btn-delete {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    .btn-delete:hover {
+      background-color: #c82333;
+    }
+
+    .flash-messages {
+      margin-bottom: 1rem;
+    }
+
+    .alert {
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      color: white;
+      text-align: center;
+    }
+
+    .alert-danger {
+      background-color: #dc3545;
+    }
+
+    .alert-success {
+      background-color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="User Management Logo">
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="#">API</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">About</a></li>
+      {% if username %}
+        <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+      {% else %}
+        <li><a href="{{url_for('auth.login')}}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <div class="confirm-container">
+    <h1>Confirm Account Deletion</h1>
+    <p>Please enter your PIN to confirm the deletion of this account.</p>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('account.confirm_delete_account', account_id=account.id) }}">
+      <div class="form-group">
+        <label for="pin_hash">Enter PIN</label>
+        <input type="password" id="pin_hash" name="pin_hash" required>
+      </div>
+      <button type="submit" class="btn-delete">Confirm Delete</button>
+    </form>
+  </div>
+</body>
+</html>

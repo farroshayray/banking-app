@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Make Transaction</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, black, #76f0f0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #000000;
+      padding: 10px 20px;
+      color: white;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+    }
+
+    .nav-links li {
+      margin-left: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #009496;
+    }
+
+    .transaction-container {
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 600px;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      margin-top: 10rem;
+      margin-bottom: 2rem;
+    }
+    
+    .account-info {
+      color: wheat;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    input, select, textarea {
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #dfe6e9;
+      border-radius: 6px;
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    .btn-submit {
+      padding: 0.75rem;
+      background-color: #0984e3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    .btn-submit:hover {
+      background-color: #74b9ff;
+    }
+
+    .alert {
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      color: white;
+      background-color: #e74c3c;
+      text-align: center;
+    }
+
+    #recipient-field {
+      display: none; /* Hide the field by default */
+    }
+    .transaction-list-container {
+      margin-top: 2rem;
+    }
+    /* transaction card */
+    .transaction-card {
+    background-color: #f8f9fa; /* Latar belakang yang lebih lembut */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    transition: transform 0.2s;
+    width: 60vw;
+  }
+
+  .transaction-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .transaction-card p {
+    margin: 0.5rem 0;
+  }
+
+  .transaction-card .amount {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #28a745; /* Warna hijau untuk jumlah */
+  }
+
+  .transaction-card .type {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #007bff; /* Warna biru untuk tipe */
+    text-transform: capitalize;
+  }
+
+  .transaction-card .description {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+
+  .transaction-card .date {
+    font-size: 0.8rem;
+    color: #868e96;
+    text-align: right;
+  }
+
+  /* Gaya khusus untuk ikon */
+  .transaction-card .icon {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
+    @media (max-width: 480px) {
+      .transaction-container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Bank Logo">
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="#">API</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">About</a></li>
+      {% if username %}
+        <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+      {% else %}
+        <li><a href="{{url_for('auth.login')}}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <h1>Make Transaction</h1>
+  <div class="account-info">
+    <h3>Account Number: {{ account.account_number }}</h3>
+    <p>Account Name: {{ account.account_name }}</p>
+    <p>Account Type: {{ account.account_type }}</p>
+    <p>Balance: {{ "{:,.2f}".format(account.balance) }},-</p>
+  </div>
+  <div class="transaction-container">
+    <h2>Transaction Details</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('transaction.make_transaction', account_id=account.id) }}" method="post">
+      <label for="type">Transaction Type</label>
+      <select name="type" id="type" required onchange="toggleRecipientField()">
+        <option value="transfer">Transfer</option>
+        <option value="withdrawal">Withdrawal</option>
+        <option value="deposit">Deposit</option>
+      </select>
+
+      <!-- Recipient Account Number field -->
+      <div id="recipient-field">
+        <label for="to_account_number">Recipient Account Number</label>
+        <input type="text" name="to_account_number" id="to_account_number">
+      </div>
+
+      <label for="amount">Amount</label>
+      <input type="number" name="amount" id="amount" step="0.01" required>
+
+      <label for="description">Description</label>
+      <textarea name="description" id="description" rows="3"></textarea>
+
+      <label for="account_pin">Account PIN</label>
+      <input type="password" name="account_pin" id="account_pin" required>
+
+      <button type="submit" class="btn-submit">Submit Transaction</button>
+    </form>
+  </div>
+  <div class="transaction-list-container">
+    <div>
+      <h2 style="color: white; text-align: left;">Transaction History</h2>
+    </div>
+    {% for get_transaction in get_transactions %}
+    <a href="{{url_for('transaction.transaction_detail', account_id=account.id, transaction_id=get_transaction.id)}}">
+      <div class="transaction-card">
+        {% if get_transaction.from_account_id == account.id %}
+        <p class="amount" style="color:rgb(213, 1, 1);">⬅️ {{ get_transaction.amount | currency }}</p>
+        {% else %}
+        <p class="amount" style="color:rgb(0, 144, 2);">➡️ {{ get_transaction.amount | currency }}</p>
+        {% endif %}
+        <p class="type">{{ get_transaction.type }}</p>
+        <p class="description">{{ get_transaction.description }}</p>
+        <p class="date">{{ get_transaction.created_at.strftime('%d %b %Y %H:%M') }}</p>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  
+
+  <script>
+    function toggleRecipientField() {
+      const type = document.getElementById("type").value;
+      const recipientField = document.getElementById("recipient-field");
+      recipientField.style.display = type === "transfer" ? "block" : "none";
+    }
+
+    // Initialize field visibility on page load
+    document.addEventListener("DOMContentLoaded", toggleRecipientField);
+  </script>
+</body>
+</html>

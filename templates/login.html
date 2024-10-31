@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, black, #76f0f0);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #000000;
+      padding: 10px 20px;
+      color: white;
+      width: 100%; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      z-index: 1000;
+      margin-bottom: 20vw;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+    }
+
+    .nav-links li {
+      margin-left: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #009496;
+    }
+
+    form {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      margin-top: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #dfe6e9;
+      border-radius: 6px;
+      transition: border 0.3s;
+    }
+
+    input:focus {
+      border-color: #0984e3;
+      outline: none;
+      box-shadow: 0 0 4px rgba(9, 132, 227, 0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #0984e3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+      transition: background-color 0.3s;
+    }
+    h5 {
+      text-align: center;
+    }
+    p {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .regbutton {
+      color: #0984e3;
+    }
+    .regbutton:hover {
+      color: #0961ba;
+    }
+    button:hover {
+      background-color: #74b9ff;
+    }
+    .h1-login {
+      text-align: center;
+      color: white;
+    }
+    .alert {
+      color: red;
+      margin-top: 1vw;
+    }
+
+    @media (max-width: 480px) {
+      form {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="User Management Logo">
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="#">API</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+    </ul>
+  </nav>
+  <h1 class="h1-login">Login</h1>
+  <form method="POST">
+    <h5>Please login first</h5>
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Password" required />
+    <button type="submit">Login</button>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <p>Do not have an account? <a class="regbutton" href="{{ url_for('auth.register') }}">Register here</a></p>
+  </form>
+</body>
+</html>

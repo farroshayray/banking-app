@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Bank Account</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, black, #76f0f0);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 120vh;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #000000;
+      padding: 10px 20px;
+      color: white;
+      width: 100%; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      z-index: 1000;
+      margin-bottom: 20vw;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+    }
+
+    .nav-links li {
+      margin-left: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #009496;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      margin-top: 10vw;
+    }
+
+    form {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      margin-top: 1rem;
+      margin-bottom: auto;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #dfe6e9;
+      border-radius: 6px;
+      transition: border 0.3s;
+    }
+
+    input:focus, select:focus {
+      border-color: #0984e3;
+      outline: none;
+      box-shadow: 0 0 4px rgba(9, 132, 227, 0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #0984e3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #74b9ff;
+    }
+
+    .alert {
+      color: red;
+      margin-top: 1vw;
+    }
+
+    .success-message {
+      color: green;
+    }
+
+    @media (max-width: 480px) {
+      form {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="User Management Logo">
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="#">API</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">About</a></li>
+      {% if username %}
+          <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+      {% else %}
+          <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <h1>Create Bank Account</h1>
+  
+  <form method="POST">
+    <h5>Fill out the form to create your account</h5>
+    <input type="text" name="account_name" placeholder="Account Name" required />
+    <select name="account_type" required>
+      <option value="" disabled selected>Select Account Type</option>
+      <option value="savings">Savings</option>
+      <option value="checking">Current</option>
+    </select>
+    <input type="password" name="pin_hash" placeholder="6-digits PIN number" pattern="^\d{6}$" title="PIN must be 6 digits" required />
+    <input type="password" name="repin_hash" placeholder="Re-enter 6-digits PIN number" pattern="^\d{6}$" title="PIN must be 6 digits" required />
+    <button type="submit">Create Account</button>
+
+    <!-- Flash messages for errors or success -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+  </form>
+</body>
+</html>

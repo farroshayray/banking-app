@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Form</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, black, #76f0f0);
+      height: 150vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #000000;
+      padding: 10px 20px;
+      color: white;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+    }
+
+    .nav-links li {
+      margin-left: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #009f9a;
+    }
+    .h1-register {
+      color: #ffffff;
+      margin-top: 80px;
+    }
+    .p-insideForm {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      background-color: white;
+      padding: 2.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      transition: transform 0.3s;
+      margin-top: 20px; 
+    }
+
+    form:hover {
+      transform: scale(1.02);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.6rem 0;
+      border: 1px solid #dfe6e9;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      border-color: #00cec9;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 206, 201, 0.5);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #008986;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+      transition: background-color 0.3s;
+    }
+    .confirm-account {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .confirm-link {
+      color: #74b9ff;
+    }
+    .confirm-link:hover {
+      color: #0961ba;
+    }
+
+    button:hover {
+      background-color: #007971;
+    }
+    .alert {
+      color: red;
+      margin-top: 1vw;
+    }
+
+    @media (max-width: 480px) {
+      form {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="User Management Logo">
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="#">API</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="{{url_for('auth.login')}}">Login</a></li>
+    </ul>
+  </nav>
+  <h1 class="h1-register">Register</h1>
+  <form method="POST">
+    <p class="p-insideForm">Please register first</p>
+    <input type="text" name="username" placeholder="Username" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="number" name="phone_number" placeholder="Phone Number" required/>
+    <input type="password" name="password" placeholder="Password" required />
+    <input type="password" name="repassword" placeholder="Re-input Password" required />
+    <button type="submit">Register</button>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <p class="confirm-account">have an account yet? <a class="confirm-link" href="{{ url_for('auth.login') }}">Login</a></p>
+  </form>
+</body>
+</html>

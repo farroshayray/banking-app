@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Dashboard</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, black, #76f0f0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #000000;
+      padding: 10px 20px;
+      color: white;
+      width: 100%; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      z-index: 1000;
+      margin-bottom: 20vw;
+    }
+
+    .logo img {
+      height: 50px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+    }
+
+    .nav-links li {
+      margin-left: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #009496;
+    }
+
+    .dashboard-container {
+      margin-top: 8rem;
+      width: 100%;
+      max-width: 800px;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+    }
+
+    .account-list {
+      margin-top: 1rem;
+    }
+    .link_account {
+      text-decoration: none;
+    }
+    .link_account:hover {
+      text-decoration: none;
+      zoom: 110%;
+    }
+
+    .account-item {
+      padding: 1rem;
+      border: 1px solid #dfe6e9;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .account-info {
+      color: #333;
+    }
+
+    .btn-create-account {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #0984e3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      transition: background-color 0.3s;
+    }
+
+    .btn-create-account:hover {
+      background-color: #74b9ff;
+    }
+
+    @media (max-width: 480px) {
+      .dashboard-container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="User Management Logo">
+    </div>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="#">API</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">About</a></li>
+      {% if username %}
+        <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+      {% else %}
+        <li><a href="{{url_for('auth.login')}}">Login</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <h1>Account Dashboard</h1>
+
+  <div class="dashboard-container">
+    <h2>Maintain Your Bank Accounts</h2>
+
+    <div class="account-list">
+      {% for account in accounts %}
+      <a class="link_account" href="{{url_for('account.account_detail', account_id=account.id)}}">
+        <div class="account-item">
+          
+            <div class="account-info">
+              <p><strong>Account Number:</strong> {{ account.account_number }}</p>
+              <p><strong>Account Name:</strong> {{ account.account_name }}</p>
+              <p><strong>Account Type:</strong> {{ account.account_type }}</p>
+              <p><strong>Balance:</strong> Rp. {{ "{:,.2f}".format(account.balance) }},-</p>
+            </div>
+          
+        </div>
+      </a>
+      {% else %}
+        <p>No accounts found. Create your first account below.</p>
+      {% endfor %}
+    </div>
+
+    <a href="{{url_for('account.create_account')}}" class="btn-create-account">Create New Account</a>
+  </div>
+</body>
+</html>

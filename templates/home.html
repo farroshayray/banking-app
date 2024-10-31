@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ros Bank</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+    <!-- bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="User Management Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="https://documenter.getpostman.com/view/37782623/2sAY4rFk8u" target="_blank" rel="noopener noreferrer">Documentation</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="#">User List</a></li>
+            <li><a href="#">About</a></li>
+            {% if username %}
+                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="header-container">
+        <div class="title-container">
+            <h1 class="header-text">
+                Hello, {{ username if username else 'there' }}!
+            </h1>
+            <h2 class="h2-text">Ros Bank</h2>
+        </div>
+            {% if accounts %}
+                <div class="account-container">
+                    <h3 class="account-header">
+                        Accounts
+                        <a class="account-header-a" href="{{url_for('account.account_page')}}">🛠</a>
+                    </h3>
+                    <p>Create Your Transaction here</p>
+                    <ul class="account-list">
+                        {% for account in accounts %}
+                        <li class="account-item">
+                            <a href="{{ url_for('transaction.make_transaction', account_id=account.id) }}" class="account-link">
+                                <div class="account-card">
+                                    <p><strong>Account Name:</strong> {{ account.account_name }}</p>
+                                    <p><strong>Account Number:</strong> {{ account.account_number }}</p>
+                                    <p><strong>Account Type:</strong> {{ account.account_type }}</p>
+                                    <p><strong>Balance:</strong> Rp. {{ "{:,.2f}".format(account.balance) }},-</p>
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% elif username %}
+                <p>Do not have an account? <a href="{{ url_for('account.create_account') }}">Create an account here.</a></p>
+            {% else %}
+                <p>Do not have an account? <a href="{{ url_for('auth.login') }}">Create an account here.</a></p>
+            {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-info">
+            <div class="contact">
+                <h3>Contact Us</h3>
+                <p>Email: info@farrosmanagement.com</p>
+                <p>Phone: +62 812 3456 7890</p>
+            </div>
+            <div class="about">
+                <h3>About Us</h3>
+                <p>We provide a comprehensive API for managing users efficiently. Join us in protecting user data.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 User Management API. All rights reserved.</p>
+        </div>
+    </footer>         
+</body>
+</html>

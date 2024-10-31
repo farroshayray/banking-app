@@ -1,0 +1,173 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000;
+    padding: 10px 20px;
+    color: white;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #00999f;
+}
+
+/* Header Section */
+.header-container {
+    background: linear-gradient(180deg, black, #76f0f0);
+    padding: 40px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.title-container {
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-text {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.h2-text {
+    font-size: 2rem;
+    margin-top: 10px;
+    color: rgb(186, 255, 255);
+}
+
+/* Account List */
+.account-box {
+    background-color: #c9c9c9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.account-container {
+    /* background-color: #f8f9fa; */
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.account-header {
+    text-align: left;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+.account-header-a {
+    color: white;
+}
+.account-header-a:hover {
+    color: #c9c9c9;
+    text-decoration: none;
+}
+
+.account-list {
+    list-style: none;
+    padding: 0;
+}
+
+.account-item {
+    background-color: #ffffff63;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #000000;
+}
+.account-link {
+    text-decoration: none;
+    color: inherit;
+}
+.account-link:hover {
+    text-decoration: none;
+    zoom: 110%;
+    color: #000000;
+}
+
+.account-card {
+
+}
+
+.account-card p {
+    margin: 5px 0;
+    text-align: left;
+}
+
+/* Footer */
+.footer {
+    background-color: #000000;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-info {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 20px;
+}
+
+.footer-info div {
+    max-width: 300px;
+}
+
+.footer-info h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.footer-bottom {
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar, .footer-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-links {
+        flex-direction: column;
+    }
+
+    .nav-links li {
+        margin: 10px 0;
+    }
+}

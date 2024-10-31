@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Denied</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(180deg, black, #76f0f0);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .container h1 {
+            font-size: 64px;
+            margin-bottom: 10px;
+        }
+
+        .container p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .container a {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 16px;
+            color: #457b9d;
+            background-color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .container a:hover {
+            background-color: #a8dadc;
+            color: #1d3557;
+        }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 15px;
+            animation: shake 0.8s ease-in-out infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🚫</div>
+        <h1>Forbidden</h1>
+        <p>You do not have permission to access this page.<br>Please log in as Admin or contact your administrator.</p>
+        <a href="{{url_for('home')}}">Home</a>
+    </div>
+</body>
+</html>
