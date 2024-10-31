@@ -260,7 +260,7 @@
       <h2 style="color: white; text-align: left;">Transaction History</h2>
     </div>
     {% for get_transaction in get_transactions %}
-    <a href="{{url_for('transaction.transaction_detail', account_id=account.id, transaction_id=get_transaction.id)}}">
+    <a  style="text-decoration: none;" href="{{url_for('transaction.transaction_detail', account_id=account.id, transaction_id=get_transaction.id)}}">
       <div class="transaction-card">
         {% if get_transaction.from_account_id == account.id %}
         <p class="amount" style="color:rgb(213, 1, 1);">⬅️ {{ get_transaction.amount | currency }}</p>
