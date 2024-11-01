@@ -117,7 +117,7 @@
             <li><a href="#">API</a></li>
             <li><a href="#">Contact</a></li>
             <li><a href="#">About</a></li>
-            {% if username %}
+            {% if user.username %}
                 <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
             {% else %}
                 <li><a href="{{url_for('auth.login')}}">Login</a></li>
@@ -134,6 +134,7 @@
             <p class="amount"><strong>Amount:</strong> {{transaction.amount | currency}}</p>
             <p class="type"><strong>Transaction Type:</strong> {{transaction.type}}</p>
             {% if transaction.type == 'transfer' %}
+                <p><strong>Transfer from:</strong>{{transfer_from_user.username}}, {{transfer_from.account_number}}</p>
                 <p><strong>Transfer to:</strong> {{transfer_to_user.username}}, {{transfer_to.account_number}}</p>
             {% endif %}
             <p><strong>Date:</strong> {{transaction.created_at}}</p>

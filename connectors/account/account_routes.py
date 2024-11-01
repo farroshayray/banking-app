@@ -96,7 +96,7 @@ def account_detail(account_id):
                 },
                 "message": "GET account data success"
             })
-        return render_template('account_detail.html', account=account)
+        return render_template('account_detail.html', account=account, logged_in_user=logged_in_user)
     
     elif request.method == 'POST':
         account_name = request.form.get('account_name')
@@ -171,7 +171,7 @@ def account_detail(account_id):
             'account_name': account.account_name,
             'account_number': account.account_number
         }), 201
-        
+                
 @account.route('/account_detail/delete/<int:account_id>', methods=['POST', 'DELETE'])
 @jwt_required()
 def delete_account(account_id):

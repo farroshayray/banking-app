@@ -254,6 +254,7 @@
 
       <button type="submit" class="btn-submit">Submit Transaction</button>
     </form>
+    <p style="margin-top: 1rem;">transaction didn't listed yet? <a href="{{url_for('transaction.make_transaction', account_id=account.id)}}">refresh transaction</a></p>
   </div>
   <div class="transaction-list-container">
     <div>

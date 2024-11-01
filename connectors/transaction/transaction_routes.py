@@ -23,8 +23,10 @@ def transaction_detail(account_id, transaction_id):
     account = Account.query.filter_by(id=account_id).first()
     transaction = Transaction.query.filter_by(id=transaction_id).first()
     transfer_to = Account.query.filter_by(id=transaction.to_account_id).first()
+    transfer_from = Account.query.filter_by(id=transaction.from_account_id).first()
+    transfer_from_user = User.query.filter_by(id=transfer_from.user_id).first() if transfer_from else None
     transfer_to_user = User.query.filter_by(id=transfer_to.user_id).first() if transfer_to else None
-    return render_template('transaction_detail.html', user=user, account=account, transaction=transaction, transfer_to=transfer_to, transfer_to_user=transfer_to_user)
+    return render_template('transaction_detail.html', user=user, account=account, transaction=transaction, transfer_from_user=transfer_from_user, transfer_from=transfer_from, transfer_to=transfer_to, transfer_to_user=transfer_to_user)
 
 @transaction.route('/transaction_list/<int:account_id>', methods=['GET'])
 @jwt_required()
